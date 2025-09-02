@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/k&d.png') }}">
+    <style>
+      .main-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #007bff;
+        padding: 12px 0;
+        border-radius: 0 0 12px 12px;
+        margin-bottom: 32px;
+        position: relative;
+      }
+      .nav-links {
+        display: flex;
+        gap: 10px;
+      }
+      .main-nav a {
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        transition: background 0.2s;
+        margin: 0 2px;
+      }
+      .main-nav a:hover, .main-nav a.active {
+        background: #0056b3;
+      }
+      .nav-hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 36px;
+        height: 36px;
+        margin-right: 12px;
+        cursor: pointer;
+      }
+      .nav-hamburger span {
+        display: block;
+        width: 28px;
+        height: 4px;
+        background: #fff;
+        margin: 3px 0;
+        border-radius: 2px;
+        transition: 0.3s;
+      }
+      .profile-box {
+        max-width: 420px;
+        margin: 60px auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px #0001;
+        padding: 32px 24px;
+        text-align: center;
+      }
+      .profile-box h2 { color: #007bff; margin-bottom: 18px; }
+      .profile-box p { margin: 8px 0; font-size: 1.1rem; }
+      .back-dashboard {
+        display: inline-block;
+        margin-top: 18px;
+        background: #007bff;
+        color: #fff;
+        border-radius: 8px;
+        padding: 10px 24px;
+        text-decoration: none;
+        font-size: 1.05rem;
+      }
+      .back-dashboard:hover { background: #0056b3; }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      label {
+        text-align: left;
+        font-weight: bold;
+        color: #333;
+      }
+      input[type="text"],
+      input[type="email"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+      button {
+        padding: 10px;
+        background: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.05rem;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      .profile-pic-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      .profile-pic {
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #007bff33;
+        margin-bottom: 8px;
+      }
+      .profile-message {
+        background: #e6ffe6;
+        color: #218838;
+        border: 1px solid #b2f2b2;
+        border-radius: 6px;
+        padding: 8px 0;
+        margin-bottom: 14px;
+        font-size: 1rem;
+      }
+      @media (max-width: 600px) {
+        .main-nav { flex-direction: column; gap: 8px; padding: 10px 0; }
+        .profile-box { margin-top: 90px; }
+      }
+      @media (min-width: 601px) {
+        .profile-box { margin-top: 100px; }
+      }
+      @media (max-width: 700px) {
+        .main-nav {
+          flex-direction: row;
+          padding: 8px 0;
+        }
+        .nav-hamburger {
+          display: flex;
+        }
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          position: absolute;
+          top: 48px;
+          left: 0;
+          width: 100vw;
+          background: #007bff;
+          z-index: 1001;
+          border-radius: 0 0 12px 12px;
+        }
+        .nav-links.show {
+          display: flex;
+        }
+        .main-nav a {
+          margin: 0;
+          padding: 14px 0;
+          border-radius: 0;
+          border-bottom: 1px solid #0056b3;
+        }
+      }
+    </style>
+    <script>
+      function toggleNavMenu() {
+        var navLinks = document.querySelector('.nav-links');
+        navLinks.classList.toggle('show');
+      }
+    </script>
+</head>
+<body>
+    <nav class="main-nav">
+      <div class="nav-hamburger" onclick="toggleNavMenu()">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="nav-links">
+        <a href="/dashboard" {% if request.path=='/dashboard' %}class="active"{% endif %}>Dashboard</a>
+        <a href="/add" {% if request.path=='/add' %}class="active"{% endif %}>Add Product</a>
+        <a href="/orders" {% if request.path=='/orders' %}class="active"{% endif %}>Orders</a>
+        <a href="/profile" {% if request.path=='/profile' %}class="active"{% endif %}>Profile</a>
+      </div>
+    </nav>
+    <div class="profile-box">
+      <h2>Seller Profile</h2>
+      {% if message %}
+        <div class="profile-message">{{ message }}</div>
+      {% endif %}
+      <form method="post" enctype="multipart/form-data">
+        <div class="profile-pic-section">
+          <img src="{{ profile.image_url or url_for('static', filename='images/default-profile.png') }}" alt="Profile Picture" class="profile-pic">
+          <input type="file" name="profile_pic" accept="image/*">
+        </div>
+        <label>Name: <input type="text" name="name" value="{{ profile.name }}" required></label>
+        <label>Email: <input type="email" name="email" value="{{ profile.email }}" required></label>
+        <label>Phone: <input type="text" name="phone" value="{{ profile.phone }}" required></label>
+        <label>Role: <input type="text" name="role" value="{{ profile.role }}" readonly></label>
+        <button type="submit">Save</button>
+      </form>
+      <a href="/dashboard" class="back-dashboard">Back to Dashboard</a>
+    </div>
+</body>
+</html>

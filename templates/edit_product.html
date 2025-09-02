@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/k&d.png') }}">
+    <style>
+      .edit-box {
+        max-width: 420px;
+        margin: 60px auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px #0001;
+        padding: 32px 24px;
+        text-align: center;
+      }
+      .edit-box h2 { color: #007bff; margin-bottom: 18px; }
+      form { display: flex; flex-direction: column; gap: 12px; }
+      label { text-align: left; font-weight: bold; color: #333; }
+      input[type="text"], input[type="number"] {
+        padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem;
+      }
+      button { padding: 10px; background: #007bff; color: #fff; border: none; border-radius: 8px; font-size: 1.05rem; cursor: pointer; }
+      button:hover { background: #0056b3; }
+      .back-link { display: inline-block; margin-top: 18px; background: #007bff; color: #fff; border-radius: 8px; padding: 10px 24px; text-decoration: none; font-size: 1.05rem; }
+      .back-link:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+  <div class="edit-box">
+    <h2>Edit Product</h2>
+    <form method="post" enctype="multipart/form-data">
+      <label>Image: <input type="file" name="product_image" accept="image/*"></label>
+      <img src="{{ url_for('static', filename='images/' ~ product.image_path) }}" alt="Product Image" style="width:100px;height:60px;margin-bottom:10px;">
+      <label>Name: <input type="text" name="product_name" value="{{ product.product_name }}" required></label>
+      <label>Price: <input type="number" name="product_price" value="{{ product.product_price }}" required></label>
+      <label>Stock: <input type="number" name="stock" value="{{ product.stock }}" required></label>
+      <button type="submit">Save Changes</button>
+    </form>
+    <a href="/add" class="back-link">Back to Products</a>
+  </div>
+</body>
+</html>

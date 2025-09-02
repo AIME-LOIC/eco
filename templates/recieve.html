@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Received</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="card" style="max-width:400px;margin:40px auto;">
+            <img src="{{ url_for('static', filename='images/' ~ image_path) }}" alt="" height="120px" style="object-fit:cover;width:100%;">
+            <div class="card-body">
+                <h2>Order Request</h2>
+                <p><b>Product:</b> {{ product_name }}</p>
+                <p><b>Price:</b> {{ product_price }}</p>
+                <p><b>Quantity:</b> {{ quantity }}</p>
+                <p><b>Buyer:</b> {{ buyer_name }}</p>
+                <p><b>Phone:</b> {{ buyer_phone }}</p>
+                <p><b>Email:</b> {{ buyer_email }}</p>
+                <p><b>Address:</b> {{ buyer_address }}</p>
+                <p style="color:green;font-weight:bold;">A buyer wants to purchase your product!</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

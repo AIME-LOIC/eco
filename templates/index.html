@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/k&d.png') }}">
+    <style>
+      #loader-bg {
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: #fff;
+        z-index: 5000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.4s;
+      }
+      #loader-bg img {
+        width: 80px; height: 80px; object-fit: contain;
+        margin-bottom: 24px;
+        display: block;
+      }
+      .loader-spinner {
+        width: 38px; height: 38px;
+        border: 4px solid #007bff;
+        border-top: 4px solid #e0e0e0;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes loaderPulse {
+        0% { transform: scale(1); opacity: 1; }
+        100% { transform: scale(1.08); opacity: 0.85; }
+      }
+    </style>
+</head>
+<body>
+    <div id="loader-bg">
+      <img src="{{ url_for('static', filename='images/k&d.png') }}" alt="K&D Logo">
+      <div class="loader-spinner"></div>
+    </div>
+    <script>
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          document.getElementById('loader-bg').style.opacity = 0;
+          setTimeout(function() {
+            document.getElementById('loader-bg').style.display = 'none';
+          }, 400);
+        }, 400); // loader stays at least 400ms
+      });
+    </script>
+    <header class="main-header">
+        <div class="logo">K&D SHOP</div>
+        <div class="cart-section" id="cartIconSection">
+            <span class="cart-icon" id="cartIcon">🛒</span>
+            <span id="cart-count">0</span>
+        </div>
+    </header>
+    <div class="container">
+        <div class="product-grid">
+        {% for item in data %}
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/' ~ item.image_path) }}" alt="" height="100px" width="200px">
+                <div class="card-body">
+                    <h3>{{ item.product_name }}</h3>
+                    <p>Price: {{ item.product_price }}</p>
+                    <p>Stock: {{ item.stock }}</p>
+                    <button class="add-to-cart" data-product='{{ item | tojson }}'>Add to Cart</button>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    <!-- Cart Popup Modal -->
+    <div id="cartModal" class="modal">
+      <div class="modal-content" style="width: 400px;">
+        <span class="close" id="closeCart">&times;</span>
+        <h2>Your Cart</h2>
+        <div id="cartItems"></div>
+      </div>
+    </div>
+    <!-- Buy Popup Modal -->
+    <div id="buyModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Buy Product</h2>
+        <div id="modalProductInfo"></div>
+        <form id="buyForm" method="POST" action="/buy_product">
+          <input type="hidden" name="product_name" id="modalProductName">
+          <input type="hidden" name="product_price" id="modalProductPrice">
+          <input type="hidden" name="image_path" id="modalImagePath">
+          <label>Your Name: <input type="text" name="buyer_name" required></label><br>
+          <label>Phone: <input type="text" name="buyer_phone" required></label><br>
+          <label>Email: <input type="email" name="buyer_email" required></label><br>
+          <label>Address: <input type="text" name="buyer_address" required></label><br>
+          <label>Quantity: <input type="number" name="quantity" min="1" value="1" required></label><br>
+          <button type="submit">Confirm Purchase</button>
+        </form>
+      </div>
+    </div>
+    <!-- Image Preview Modal -->
+    <div id="imagePreviewModal">
+      <span class="close" id="closeImagePreview">&times;</span>
+      <img id="previewImg" src="" alt="Product Preview">
+    </div>
+    <script src="{{ url_for('static', filename='scripts/cart.js') }}"></script>
+</body>
+</html>

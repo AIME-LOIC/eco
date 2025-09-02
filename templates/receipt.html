@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <style>
+      .receipt-box { max-width: 420px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px #0001; padding: 32px 24px; }
+      .receipt-box h2 { color: #28a745; margin-bottom: 18px; }
+      .receipt-box p { margin: 8px 0; font-size: 1.1rem; }
+      .receipt-label { color: #888; font-size: 0.98rem; }
+      .receipt-value { font-weight: 600; color: #222; }
+      .receipt-qr { display: flex; justify-content: center; margin: 18px 0; }
+      .receipt-num { font-size: 1.1rem; color: #007bff; font-weight: bold; letter-spacing: 2px; }
+      .print-btn { margin-top: 18px; background: #007bff; color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-size: 1.1rem; cursor: pointer; }
+      .print-btn:hover { background: #0056b3; }
+      .back-btn { display: inline-block; margin-top: 16px; padding: 10px 24px; background: #6c757d; color: #fff; border-radius: 8px; text-decoration: none; font-size: 1.05rem; }
+      .back-btn:hover { background: #5a6268; }
+    </style>
+</head>
+<body>
+    <div class="container">
+      <div class="receipt-box">
+        <h2>Order Receipt</h2>
+        <p class="receipt-num">Receipt #: {{ unique_number }}</p>
+        <p><span class="receipt-label">Buyer:</span> <span class="receipt-value">{{ order.buyer_name }}</span></p>
+        <p><span class="receipt-label">Item:</span> <span class="receipt-value">{{ order.product_name }}</span></p>
+        <p><span class="receipt-label">Price:</span> <span class="receipt-value">{{ order.product_price }}</span></p>
+        <p><span class="receipt-label">Quantity:</span> <span class="receipt-value">{{ order.quantity }}</span></p>
+        <p><span class="receipt-label">Paid Money:</span> <span class="receipt-value">{{ (order.quantity | int) * (order.product_price | float) }}</span></p>
+        <p><span class="receipt-label">Timestamp:</span> <span class="receipt-value">{{ timestamp }}</span></p>
+        <div class="receipt-qr">
+          <img src="/{{ qr_path }}" alt="QR Code" width="120" height="120">
+        </div>
+        <button class="print-btn" onclick="window.print()">Print Receipt</button>
+        <a href="{{ url_for('show_orders') }}" class="back-btn">Back to Orders</a>
+      </div>
+    </div>
+</body>
+</html>

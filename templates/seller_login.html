@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/k&d.png') }}">
+  <style>
+    .auth-box {
+      max-width: 400px;
+      margin: 80px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px #0002;
+      padding: 40px 24px 32px 24px;
+      text-align: center;
+    }
+    .auth-box h2 { color: #007bff; margin-bottom: 18px; }
+    form { display: flex; flex-direction: column; gap: 14px; }
+    label { text-align: left; font-weight: bold; color: #333; }
+    input[type="email"], input[type="password"] {
+      padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem;
+    }
+    button { padding: 12px; background: #007bff; color: #fff; border: none; border-radius: 8px; font-size: 1.05rem; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    .auth-link { display: block; margin-top: 18px; color: #007bff; text-decoration: none; }
+    .auth-link:hover { text-decoration: underline; }
+    .auth-error { background: #ffe6e6; color: #c00; border: 1px solid #fbb; border-radius: 6px; padding: 8px 0; margin-bottom: 14px; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="auth-box">
+    <h2>Seller Login</h2>
+    {% if error %}<div class="auth-error">{{ error }}</div>{% endif %}
+    <form method="post">
+      <label>Email: <input type="email" name="email" required></label>
+      <label>Password: <input type="password" name="password" required></label>
+      <button type="submit">Login</button>
+    </form>
+    <a href="/seller_register" class="auth-link">Create an account</a>
+    <a href="/welcome" class="auth-link">Back to Welcome</a>
+  </div>
+</body>
+</html>

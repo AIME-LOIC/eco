@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome | K&D SHOP</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/k&d.png') }}">
+  <style>
+    body { background: #f8f9fa; }
+    .welcome-container {
+      max-width: 400px;
+      margin: 80px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px #0002;
+      padding: 40px 24px 32px 24px;
+      text-align: center;
+    }
+    .welcome-container h1 {
+      color: #007bff;
+      margin-bottom: 18px;
+      font-size: 2.1rem;
+    }
+    .choose-btn {
+      display: block;
+      width: 100%;
+      margin: 18px 0;
+      padding: 14px 0;
+      font-size: 1.15rem;
+      border-radius: 8px;
+      border: none;
+      background: #007bff;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .choose-btn.buyer { background: #28a745; }
+    .choose-btn.seller { background: #007bff; }
+    .choose-btn:hover { opacity: 0.9; }
+    .welcome-logo {
+      width: 80px; height: 80px; object-fit: contain; margin-bottom: 18px;
+    }
+    #loader-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: #fff;
+      z-index: 5000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.4s;
+    }
+    #loader-bg img {
+      width: 80px; height: 80px; object-fit: contain;
+      margin-bottom: 24px;
+      display: block;
+    }
+    .loader-spinner {
+      width: 38px; height: 38px;
+      border: 4px solid #007bff;
+      border-top: 4px solid #e0e0e0;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="loader-bg">
+    <img src="{{ url_for('static', filename='images/k&d.png') }}" alt="K&D Logo">
+    <div class="loader-spinner"></div>
+  </div>
+  <div class="welcome-container">
+    <img src="{{ url_for('static', filename='images/k&d.png') }}" alt="K&D Logo" class="welcome-logo">
+    <h1>Welcome to K&D SHOP</h1>
+    <p style="margin-bottom:24px;">Choose your role to continue:</p>
+    <form method="get" action="/choose">
+      <button type="submit" name="role" value="buyer" class="choose-btn buyer">I'm a Buyer</button>
+      <button type="submit" name="role" value="seller" class="choose-btn seller">I'm a Seller</button>
+    </form>
+  </div>
+  <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('loader-bg').style.opacity = 0;
+        setTimeout(function() {
+          document.getElementById('loader-bg').style.display = 'none';
+        }, 400);
+      }, 400); // loader stays at least 400ms
+    });
+  </script>
+</body>
+</html>
